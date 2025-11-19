@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Red Leaks Smart Period Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral-rose: #FF6B6B;
+            --deep-berry: #C44569;
+            --soft-blush: #FFF5F5;
+            --sage-green: #95C7A3;
+            --warm-gray: #6C757D;
+            --golden-honey: #FFC107;
+            --lavender-mist: #E8DAFF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-blush) 0%, #ffffff 50%, var(--soft-blush) 100%);
+            background-attachment: fixed;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            transition: all 0.3s ease;
+        }
+        
+        .feature-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        #map {
+            height: 400px;
+            border-radius: 1rem;
+        }
+        
+        .comparison-table {
+            background: linear-gradient(135deg, #ffffff 0%, var(--soft-blush) 100%);
+        }
+        
+        .pricing-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.2);
+        }
+        
+        .pricing-card.featured {
+            border: 3px solid var(--coral-rose);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold gradient-text">Red Leaks</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-gray-700 hover:text-coral-rose transition-colors">Home</a>
+                        <a href="features.html" class="text-coral-rose font-semibold">Features</a>
+                        <a href="impact.html" class="text-gray-700 hover:text-coral-rose transition-colors">Impact</a>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h1 class="text-5xl lg:text-6xl font-bold mb-6 gradient-text">Your Personal Period Assistant</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover the comprehensive features that make Red Leaks the most advanced period care solution available.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <img src="resources/app-mockup.png" alt="Red Leaks App Features" class="w-full max-w-md mx-auto rounded-3xl shadow-2xl">
+                </div>
+                <div class="fade-in">
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="feature-icon w-12 h-12 rounded-full flex items-center justify-center text-white text-xl">🎯</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">AI-Powered Predictions</h3>
+                                <p class="text-gray-600">Machine learning algorithms analyze your unique patterns for 95% accuracy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="feature-icon w-12 h-12 rounded-full flex items-center justify-center text-white text-xl">🚚</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Smart Delivery Network</h3>
+                                <p class="text-gray-600">Automatic delivery from 50,000+ partner pharmacies and stores</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="feature-icon w-12 h-12 rounded-full flex items-center justify-center text-white text-xl">🔒</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Bank-Level Security</h3>
+                                <p class="text-gray-600">End-to-end encryption protects your sensitive health data</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Grid -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Comprehensive Period Care</h2>
+                <p class="text-xl text-gray-600">Every feature designed for your comfort, convenience, and confidence</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cycle Tracking -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">📅</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Advanced Cycle Tracking</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            28-day cycle visualization
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Symptom and mood logging
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Ovulation prediction
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Flow intensity tracking
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Smart Delivery -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🚚</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Intelligent Delivery</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Automatic pre-period delivery
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Local store integration
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Real-time delivery tracking
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Emergency same-day delivery
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Product Personalization -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Personalized Products</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Brand preference learning
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Size and absorbency matching
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Organic and eco-friendly options
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Subscription customization
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Health Insights -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">📊</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Health Analytics</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Cycle pattern analysis
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Irregularity detection
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Health trend reports
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Doctor visit reminders
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Privacy & Security -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🔒</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Complete Privacy</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            End-to-end encryption
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Local data storage options
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Anonymous usage analytics
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            GDPR compliant data handling
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Community Support -->
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">👥</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Community Features</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Anonymous community forums
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Expert health advice
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Peer support groups
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-sage-green mr-3">✓</span>
+                            Educational resources
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Store Locator -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Find Partner Stores Near You</h2>
+                <p class="text-xl text-gray-600">50,000+ partner locations across the country</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 fade-in">
+                    <div id="map" class="shadow-lg"></div>
+                </div>
+                
+                <div class="space-y-6 fade-in">
+                    <div class="bg-white p-6 rounded-3xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Store Locator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Enter Your Location</label>
+                                <input type="text" id="location-input" placeholder="City, State or ZIP" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent">
+                            </div>
+                            <button id="search-stores" class="btn-primary text-white px-6 py-3 rounded-lg w-full">
+                                Find Nearby Stores
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-3xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Partner Networks</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-center">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/logos-world.net/cvs-health-logo/" alt="CVS" class="h-6 mr-2">
+                                    CVS Pharmacy
+                                </span>
+                                <span class="text-sage-green font-semibold">9,800+ stores</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-center">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/logos-world.net/walgreens-logo/" alt="Walgreens" class="h-6 mr-2">
+                                    Walgreens
+                                </span>
+                                <span class="text-sage-green font-semibold">8,700+ stores</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-center">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/logos-world.net/rite-aid-logo/" alt="Rite Aid" class="h-6 mr-2">
+                                    Rite Aid
+                                </span>
+                                <span class="text-sage-green font-semibold">2,400+ stores</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-center">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/logos-world.net/target-logo/" alt="Target" class="h-6 mr-2">
+                                    Target
+                                </span>
+                                <span class="text-sage-green font-semibold">1,900+ stores</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Analytics Dashboard -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Health Insights Dashboard</h2>
+                <p class="text-xl text-gray-600">Understand your body like never before</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                    <h3 class="text-2xl font-bold mb-6">Cycle Pattern Analysis</h3>
+                    <div id="cycle-chart" style="height: 300px;"></div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                    <h3 class="text-2xl font-bold mb-6">Symptom Tracking</h3>
+                    <div id="symptom-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid md:grid-cols-3 gap-8 fade-in">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-coral-rose mb-2">28.5</div>
+                    <div class="text-gray-600">Average Cycle Length</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-sage-green mb-2">4.2</div>
+                    <div class="text-gray-600">Average Period Duration</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-golden-honey mb-2">95%</div>
+                    <div class="text-gray-600">Prediction Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Why Red Leaks is Different</h2>
+                <p class="text-xl text-gray-600">See how we compare to traditional solutions</p>
+            </div>
+            
+            <div class="comparison-table rounded-3xl shadow-lg overflow-hidden fade-in">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gradient-to-r from-coral-rose to-deep-berry text-white">
+                            <tr>
+                                <th class="px-6 py-4 text-left">Feature</th>
+                                <th class="px-6 py-4 text-center">Traditional Apps</th>
+                                <th class="px-6 py-4 text-center">Manual Tracking</th>
+                                <th class="px-6 py-4 text-center font-bold">Red Leaks</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-4 font-medium">Period Prediction</td>
+                                <td class="px-6 py-4 text-center">✓ Basic</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ AI-Powered (95% accuracy)</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-4 font-medium">Product Delivery</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ Automatic</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-4 font-medium">Store Integration</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ 50,000+ partners</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-4 font-medium">Health Analytics</td>
+                                <td class="px-6 py-4 text-center">✓ Limited</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ Comprehensive</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-4 font-medium">Emergency Delivery</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ Same-day available</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-medium">Community Support</td>
+                                <td class="px-6 py-4 text-center">✓ Some</td>
+                                <td class="px-6 py-4 text-center">❌ None</td>
+                                <td class="px-6 py-4 text-center text-sage-green font-bold">✓ Expert-moderated</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Choose Your Plan</h2>
+                <p class="text-xl text-gray-600">Flexible pricing designed for every woman's needs</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Free Plan -->
+                <div class="pricing-card bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Free</h3>
+                        <div class="text-4xl font-bold text-coral-rose mb-2">$0</div>
+                        <div class="text-gray-600 mb-6">Forever</div>
+                        
+                        <ul class="space-y-3 text-left mb-8">
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Basic cycle tracking
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Period predictions
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Symptom logging
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Community access
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gray-400 mr-3">✗</span>
+                                Product delivery
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gray-400 mr-3">✗</span>
+                                Advanced analytics
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full border-2 border-coral-rose text-coral-rose px-6 py-3 rounded-full font-semibold hover:bg-coral-rose hover:text-white transition-all">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card featured bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-gradient-to-r from-coral-rose to-deep-berry text-white px-4 py-1 rounded-full text-sm font-semibold">
+                            Most Popular
+                        </span>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Premium</h3>
+                        <div class="text-4xl font-bold text-coral-rose mb-2">$12.99</div>
+                        <div class="text-gray-600 mb-6">Per month</div>
+                        
+                        <ul class="space-y-3 text-left mb-8">
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Everything in Free
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Automatic product delivery
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Advanced health analytics
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Priority customer support
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Emergency delivery
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Product customization
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full btn-primary text-white px-6 py-3 rounded-full font-semibold">
+                            Start Free Trial
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Family Plan -->
+                <div class="pricing-card bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Family</h3>
+                        <div class="text-4xl font-bold text-coral-rose mb-2">$24.99</div>
+                        <div class="text-gray-600 mb-6">Per month</div>
+                        
+                        <ul class="space-y-3 text-left mb-8">
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Everything in Premium
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Up to 4 family members
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Shared delivery scheduling
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Family health dashboard
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Bulk product discounts
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-sage-green mr-3">✓</span>
+                                Family health reports
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full border-2 border-coral-rose text-coral-rose px-6 py-3 rounded-full font-semibold hover:bg-coral-rose hover:text-white transition-all">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold gradient-text mb-4">Red Leaks</div>
+                <p class="text-gray-400 mb-8">Empowering women through smart period care</p>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-500 text-sm">
+                        © 2025 Red Leaks. All rights reserved. | Privacy Policy | Terms of Service
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeMap();
+            initializeCharts();
+            initializePricingCards();
+        });
+
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize map
+        function initializeMap() {
+            const map = L.map('map').setView([40.7128, -74.0060], 12);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add sample store locations
+            const stores = [
+                {lat: 40.7589, lng: -73.9851, name: 'CVS Pharmacy - Times Square', distance: '0.3 mi'},
+                {lat: 40.7505, lng: -73.9934, name: 'Walgreens - Midtown', distance: '0.5 mi'},
+                {lat: 40.7614, lng: -73.9776, lng: -73.9934, name: 'Target - Columbus Circle', distance: '0.8 mi'},
+                {lat: 40.7282, lng: -73.9942, name: 'CVS Pharmacy - Greenwich Village', distance: '1.2 mi'}
+            ];
+
+            stores.forEach(store => {
+                L.marker([store.lat, store.lng])
+                    .addTo(map)
+                    .bindPopup(`<b>${store.name}</b><br>Distance: ${store.distance}<br>✓ In Stock`);
+            });
+
+            // Search functionality
+            document.getElementById('search-stores').addEventListener('click', function() {
+                const location = document.getElementById('location-input').value;
+                if (location) {
+                    // Simulate location search
+                    alert(`Searching for stores near "${location}"...\n\nFound 12 partner stores within 5 miles of your location!`);
+                }
+            });
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Cycle Pattern Chart
+            const cycleChart = echarts.init(document.getElementById('cycle-chart'));
+            const cycleOption = {
+                title: {
+                    text: 'Cycle Length Over Time',
+                    textStyle: { fontSize: 14, color: '#6C757D' }
+                },
+                tooltip: { trigger: 'axis' },
+                xAxis: {
+                    type: 'category',
+                    data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+                },
+                yAxis: { type: 'value', min: 25, max: 32 },
+                series: [{
+                    data: [28, 29, 27, 28, 30, 28],
+                    type: 'line',
+                    smooth: true,
+                    lineStyle: { color: '#FF6B6B', width: 3 },
+                    itemStyle: { color: '#FF6B6B' },
+                    areaStyle: { color: 'rgba(255, 107, 107, 0.1)' }
+                }]
+            };
+            cycleChart.setOption(cycleOption);
+
+            // Symptom Tracking Chart
+            const symptomChart = echarts.init(document.getElementById('symptom-chart'));
+            const symptomOption = {
+                title: {
+                    text: 'Common Symptoms Tracking',
+                    textStyle: { fontSize: 14, color: '#6C757D' }
+                },
+                tooltip: { trigger: 'item' },
+                series: [{
+                    type: 'pie',
+                    radius: '70%',
+                    data: [
+                        { value: 35, name: 'Cramps', itemStyle: { color: '#FF6B6B' } },
+                        { value: 25, name: 'Mood Changes', itemStyle: { color: '#C44569' } },
+                        { value: 20, name: 'Fatigue', itemStyle: { color: '#95C7A3' } },
+                        { value: 20, name: 'Other', itemStyle: { color: '#FFC107' } }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+            symptomChart.setOption(symptomOption);
+
+            // Make charts responsive
+            window.addEventListener('resize', function() {
+                cycleChart.resize();
+                symptomChart.resize();
+            });
+        }
+
+        // Initialize pricing cards
+        function initializePricingCards() {
+            document.querySelectorAll('.pricing-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove featured class from all cards
+                    document.querySelectorAll('.pricing-card').forEach(c => c.classList.remove('featured'));
+                    // Add featured class to clicked card
+                    this.classList.add('featured');
+                });
+            });
+        }
+
+        // Handle button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent.includes('Get Started') || e.target.textContent.includes('Start Free Trial')) {
+                e.preventDefault();
+                alert('Welcome to Red Leaks! Redirecting to signup page...');
+            }
+        });
+    </script>
+</body>
+</html>

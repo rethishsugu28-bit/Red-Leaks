@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Impact - Red Leaks Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral-rose: #FF6B6B;
+            --deep-berry: #C44569;
+            --soft-blush: #FFF5F5;
+            --sage-green: #95C7A3;
+            --warm-gray: #6C757D;
+            --golden-honey: #FFC107;
+            --lavender-mist: #E8DAFF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-blush) 0%, #ffffff 50%, var(--soft-blush) 100%);
+            background-attachment: fixed;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .impact-metric {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            transition: all 0.3s ease;
+        }
+        
+        .impact-metric:hover {
+            transform: scale(1.05);
+        }
+        
+        .story-card {
+            background: linear-gradient(135deg, #ffffff 0%, var(--soft-blush) 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.15);
+        }
+        
+        .calculator-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            outline: none;
+        }
+        
+        .calculator-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--coral-rose);
+            cursor: pointer;
+        }
+        
+        .calculator-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--coral-rose);
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold gradient-text">Red Leaks</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-gray-700 hover:text-coral-rose transition-colors">Home</a>
+                        <a href="features.html" class="text-gray-700 hover:text-coral-rose transition-colors">Features</a>
+                        <a href="impact.html" class="text-coral-rose font-semibold">Impact</a>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h1 class="text-5xl lg:text-6xl font-bold mb-6 gradient-text">Empowering Women, One Cycle at a Time</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover how Red Leaks is transforming women's health, breaking stigmas, and creating positive social change across communities.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <img src="resources/community-impact.jpg" alt="Women Supporting Each Other" class="w-full rounded-3xl shadow-2xl">
+                </div>
+                <div class="fade-in">
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-coral-rose to-deep-berry rounded-full flex items-center justify-center text-white text-xl">🌟</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Breaking Menstrual Stigmas</h3>
+                                <p class="text-gray-600">Normalizing conversations about periods and women's health through education and community support</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-xl">🤝</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Building Supportive Communities</h3>
+                                <p class="text-gray-600">Connecting women through anonymous forums and peer support networks</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-golden-honey to-orange-500 rounded-full flex items-center justify-center text-white text-xl">🌍</div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Global Accessibility</h3>
+                                <p class="text-gray-600">Making period care accessible to women regardless of location or economic status</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Metrics -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Our Global Impact</h2>
+                <p class="text-xl text-gray-600">Real numbers, real change, real impact on women's lives</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="impact-metric text-center p-8 rounded-3xl text-white fade-in">
+                    <div class="text-4xl font-bold mb-2" id="women-helped">0</div>
+                    <div class="text-lg opacity-90">Women Helped</div>
+                    <div class="text-sm opacity-75 mt-2">Across 47 countries</div>
+                </div>
+                
+                <div class="impact-metric text-center p-8 rounded-3xl text-white fade-in">
+                    <div class="text-4xl font-bold mb-2" id="pads-delivered">0</div>
+                    <div class="text-lg opacity-90">Pads Delivered</div>
+                    <div class="text-sm opacity-75 mt-2">Preventing emergency situations</div>
+                </div>
+                
+                <div class="impact-metric text-center p-8 rounded-3xl text-white fade-in">
+                    <div class="text-4xl font-bold mb-2" id="stress-prevented">0</div>
+                    <div class="text-lg opacity-90">Stress Episodes Prevented</div>
+                    <div class="text-sm opacity-75 mt-2">Based on user surveys</div>
+                </div>
+                
+                <div class="impact-metric text-center p-8 rounded-3xl text-white fade-in">
+                    <div class="text-4xl font-bold mb-2" id="local-stores">0</div>
+                    <div class="text-lg opacity-90">Local Stores Supported</div>
+                    <div class="text-sm opacity-75 mt-2">Boosting local economies</div>
+                </div>
+            </div>
+            
+            <!-- Interactive Impact Calculator -->
+            <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg fade-in">
+                <h3 class="text-3xl font-bold mb-8 text-center gradient-text">Calculate Your Personal Impact</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-bold mb-6">Your Contribution</h4>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">How many women could you refer?</label>
+                                <input type="range" id="referrals-slider" class="calculator-slider w-full" 
+                                       min="1" max="20" value="5">
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>1</span>
+                                    <span id="referrals-value" class="font-semibold text-coral-rose">5</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Months using Red Leaks</label>
+                                <input type="range" id="months-slider" class="calculator-slider w-full" 
+                                       min="1" max="24" value="12">
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>1</span>
+                                    <span id="months-value" class="font-semibold text-coral-rose">12</span>
+                                    <span>24</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Emergency situations prevented</label>
+                                <input type="range" id="emergencies-slider" class="calculator-slider w-full" 
+                                       min="0" max="10" value="3">
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>0</span>
+                                    <span id="emergencies-value" class="font-semibold text-coral-rose">3</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-bold mb-6">Your Impact Results</h4>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                <span class="font-medium">Women in your network helped:</span>
+                                <span id="network-impact" class="text-2xl font-bold text-coral-rose">25</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                <span class="font-medium">Pads delivered through referrals:</span>
+                                <span id="referral-deliveries" class="text-2xl font-bold text-sage-green">300</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                <span class="font-medium">Stress-free months:</span>
+                                <span id="stress-free-months" class="text-2xl font-bold text-golden-honey">12</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                <span class="font-medium">Local economic impact:</span>
+                                <span id="economic-impact" class="text-2xl font-bold text-deep-berry">$156</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                            <p class="text-green-700 text-sm">
+                                <strong>Amazing!</strong> Your participation in Red Leaks is creating a ripple effect of positive change in your community.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Real Stories, Real Impact</h2>
+                <p class="text-xl text-gray-600">Hear from women whose lives have been transformed by Red Leaks</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/970cde64d4350271fe461d87c349ccdf0eb05ec4.jpg" alt="Emma's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Emma Rodriguez</div>
+                            <div class="text-sm text-gray-500">College Student, Boston</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "As a busy college student, I used to stress about my period constantly. Red Leaks has completely changed that. I get my products delivered right when I need them, and I can focus on my studies instead of worrying about timing."
+                    </p>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 18 months • 36 deliveries received
+                    </div>
+                </div>
+                
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/zaggocare.org/dbc967253780edc73cd18ad3396f328330b4a38c.png" alt="Priya's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Priya Sharma</div>
+                            <div class="text-sm text-gray-500">Software Engineer, San Francisco</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "The prediction accuracy is incredible. It's like having a personal assistant who knows my body better than I do. I've referred 8 colleagues, and we're all part of the Red Leaks community now."
+                    </p>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 24 months • 8 referrals made
+                    </div>
+                </div>
+                
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/c8.alamy.com/30532fb4db812bc5f011ebbcab51e1798e34ded7.jpg" alt="Maria's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Maria Gonzalez</div>
+                            <div class="text-sm text-gray-500">Teacher & Mother, Austin</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "Between teaching and taking care of my family, I have zero time to worry about my period. Red Leaks gives me one less thing to stress about. It's been a game-changer for my mental health."
+                    </p>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 12 months • 0 stress episodes
+                    </div>
+                </div>
+                
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/as2.ftcdn.net/776dc59931d8e0d6c36d646eaa7276d4ab8dd0d6.jpg" alt="Sarah's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Sarah Johnson</div>
+                            <div class="text-sm text-gray-500">Entrepreneur, Seattle</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "Running a startup means every minute counts. Red Leaks saves me at least 2 hours per month that I used to spend shopping for period products. That's valuable time I can invest in my business."
+                    </div>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 15 months • 30 hours saved
+                    </div>
+                </div>
+                
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/img.freepik.com/24b57aeb9b2d45c216f17a9a905d69679a2e228e.jpg" alt="Aisha's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Aisha Patel</div>
+                            <div class="text-sm text-gray-500">Doctor, Chicago</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "As a healthcare professional, I appreciate the data-driven approach. The health insights have helped me understand my cycle patterns better and have more informed discussions with my own doctor."
+                    </p>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 20 months • 5 health insights discovered
+                    </div>
+                </div>
+                
+                <div class="story-card p-8 rounded-3xl shadow-lg fade-in">
+                    <div class="flex items-center mb-6">
+                        <img src="https://kimi-web-img.moonshot.cn/img/c8.alamy.com/d38a10f091f1092eb80d06a002fc19c757f381cd.jpg" alt="Jasmine's Story" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">Jasmine Williams</div>
+                            <div class="text-sm text-gray-500">Remote Worker, Rural Montana</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "Living in a rural area, access to period products was always challenging. Red Leaks delivers to my doorstep reliably every month. It's been life-changing for someone in my situation."
+                    </p>
+                    <div class="text-sm text-sage-green font-semibold">
+                        Using Red Leaks for 8 months • 240 miles to nearest store
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Environmental Impact -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Environmental Responsibility</h2>
+                <p class="text-xl text-gray-600">Creating positive change for our planet</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <div id="environmental-chart" style="height: 400px;"></div>
+                </div>
+                
+                <div class="space-y-8 fade-in">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-xl">🌱</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Reduced Packaging Waste</h3>
+                            <p class="text-gray-600">Optimized delivery routes and bulk packaging reduce waste by 40% compared to individual purchases</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-xl">🚚</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Lower Carbon Footprint</h3>
+                            <p class="text-gray-600">Smart routing algorithms reduce delivery emissions by 35% through optimized routes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-xl">♻️</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Sustainable Product Options</h3>
+                            <p class="text-gray-600">Partnership with eco-friendly brands offering organic, biodegradable, and reusable products</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-xl">🏪</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Supporting Local Businesses</h3>
+                            <p class="text-gray-600">Revenue sharing with local pharmacies strengthens community economies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Vision -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Our Vision for the Future</h2>
+                <p class="text-xl text-gray-600">Expanding our impact and reaching more women worldwide</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-coral-rose to-deep-berry rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🌍</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Global Expansion</h3>
+                    <p class="text-gray-600 text-center">
+                        Launching in 25 new countries by 2026, bringing smart period care to women worldwide regardless of geographic location or economic status.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🔬</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Research Partnerships</h3>
+                    <p class="text-gray-600 text-center">
+                        Collaborating with leading research institutions to advance women's health research and improve menstrual health outcomes globally.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-golden-honey to-orange-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🏥</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Healthcare Integration</h3>
+                    <p class="text-gray-600 text-center">
+                        Partnering with healthcare providers to integrate period tracking into routine care and improve diagnostic capabilities.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-lavender-mist to-purple-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">📚</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Educational Programs</h3>
+                    <p class="text-gray-600 text-center">
+                        Developing comprehensive menstrual health education programs for schools and communities to break down stigmas and misinformation.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-coral-rose to-deep-berry rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">💚</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Sustainability Initiative</h3>
+                    <p class="text-gray-600 text-center">
+                        Achieving carbon neutrality by 2027 through renewable energy, sustainable packaging, and carbon offset programs.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center text-white text-2xl mb-6 mx-auto">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">AI Advancement</h3>
+                    <p class="text-gray-600 text-center">
+                        Developing next-generation AI that can predict health issues, recommend lifestyle changes, and provide personalized wellness insights.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Join Our Movement</h2>
+                <p class="text-xl text-gray-600 mb-8">
+                    Be part of the change. Every woman who joins Red Leaks contributes to a larger movement for better menstrual health and gender equality.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-coral-rose to-deep-berry rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl">👩</div>
+                        <h3 class="text-xl font-bold mb-2">For Yourself</h3>
+                        <p class="text-gray-600">Experience stress-free period care and take control of your menstrual health</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-sage-green to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl">👥</div>
+                        <h3 class="text-xl font-bold mb-2">For Your Community</h3>
+                        <p class="text-gray-600">Help create a supportive network where women can share experiences and advice</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-golden-honey to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl">🌍</div>
+                        <h3 class="text-xl font-bold mb-2">For the World</h3>
+                        <p class="text-gray-600">Contribute to global menstrual equity and women's empowerment initiatives</p>
+                    </div>
+                </div>
+                
+                <button class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold">
+                    Start Your Impact Journey
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold gradient-text mb-4">Red Leaks</div>
+                <p class="text-gray-400 mb-8">Empowering women through smart period care</p>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-500 text-sm">
+                        © 2025 Red Leaks. All rights reserved. | Privacy Policy | Terms of Service
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeCounters();
+            initializeImpactCalculator();
+            initializeEnvironmentalChart();
+        });
+
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize counter animations
+        function initializeCounters() {
+            const counters = [
+                { element: document.getElementById('women-helped'), target: 156000 },
+                { element: document.getElementById('pads-delivered'), target: 2340000 },
+                { element: document.getElementById('stress-prevented'), target: 89000 },
+                { element: document.getElementById('local-stores'), target: 47500 }
+            ];
+
+            counters.forEach(counter => {
+                if (counter.element) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                anime({
+                                    targets: { count: 0 },
+                                    count: counter.target,
+                                    duration: 2500,
+                                    easing: 'easeOutQuad',
+                                    update: function(anim) {
+                                        counter.element.textContent = Math.floor(anim.animatables[0].target.count).toLocaleString();
+                                    }
+                                });
+                                observer.unobserve(counter.element);
+                            }
+                        });
+                    });
+                    observer.observe(counter.element);
+                }
+            });
+        }
+
+        // Initialize impact calculator
+        function initializeImpactCalculator() {
+            const referralsSlider = document.getElementById('referrals-slider');
+            const monthsSlider = document.getElementById('months-slider');
+            const emergenciesSlider = document.getElementById('emergencies-slider');
+
+            const referralsValue = document.getElementById('referrals-value');
+            const monthsValue = document.getElementById('months-value');
+            const emergenciesValue = document.getElementById('emergencies-value');
+
+            const networkImpact = document.getElementById('network-impact');
+            const referralDeliveries = document.getElementById('referral-deliveries');
+            const stressFreeMonths = document.getElementById('stress-free-months');
+            const economicImpact = document.getElementById('economic-impact');
+
+            function updateCalculations() {
+                const referrals = parseInt(referralsSlider.value);
+                const months = parseInt(monthsSlider.value);
+                const emergencies = parseInt(emergenciesSlider.value);
+
+                // Update display values
+                referralsValue.textContent = referrals;
+                monthsValue.textContent = months;
+                emergenciesValue.textContent = emergencies;
+
+                // Calculate impacts
+                const networkHelped = referrals * 5; // Each referral helps 5 more
+                const deliveries = referrals * months * 5; // 5 deliveries per month per referral
+                const stressFree = months - emergencies;
+                const economic = referrals * months * 2.6; // $2.60 per month per referral to local economy
+
+                // Update impact displays with animation
+                anime({
+                    targets: networkImpact,
+                    innerHTML: [parseInt(networkImpact.textContent), networkHelped],
+                    duration: 500,
+                    round: 1,
+                    easing: 'easeOutQuad'
+                });
+
+                anime({
+                    targets: referralDeliveries,
+                    innerHTML: [parseInt(referralDeliveries.textContent), deliveries],
+                    duration: 500,
+                    round: 1,
+                    easing: 'easeOutQuad'
+                });
+
+                anime({
+                    targets: stressFreeMonths,
+                    innerHTML: [parseInt(stressFreeMonths.textContent), stressFree],
+                    duration: 500,
+                    round: 1,
+                    easing: 'easeOutQuad'
+                });
+
+                anime({
+                    targets: economicImpact,
+                    innerHTML: [parseInt(economicImpact.textContent), Math.round(economic)],
+                    duration: 500,
+                    round: 1,
+                    easing: 'easeOutQuad'
+                });
+            }
+
+            // Add event listeners
+            [referralsSlider, monthsSlider, emergenciesSlider].forEach(slider => {
+                slider.addEventListener('input', updateCalculations);
+            });
+
+            // Initial calculation
+            updateCalculations();
+        }
+
+        // Initialize environmental chart
+        function initializeEnvironmentalChart() {
+            const chartElement = document.getElementById('environmental-chart');
+            if (!chartElement) return;
+
+            const chart = echarts.init(chartElement);
+            
+            const option = {
+                title: {
+                    text: 'Environmental Impact Reduction',
+                    textStyle: { fontSize: 16, color: '#6C757D' }
+                },
+                tooltip: { trigger: 'axis' },
+                legend: {
+                    data: ['Traditional Shopping', 'Red Leaks Delivery']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Carbon Emissions', 'Packaging Waste', 'Store Energy', 'Transportation']
+                },
+                yAxis: { type: 'value', name: 'Environmental Impact (kg CO2)' },
+                series: [
+                    {
+                        name: 'Traditional Shopping',
+                        type: 'bar',
+                        data: [45, 23, 12, 18],
+                        itemStyle: { color: '#6C757D' }
+                    },
+                    {
+                        name: 'Red Leaks Delivery',
+                        type: 'bar',
+                        data: [28, 14, 8, 11],
+                        itemStyle: { color: '#95C7A3' }
+                    }
+                ]
+            };
+
+            chart.setOption(option);
+
+            // Make chart responsive
+            window.addEventListener('resize', function() {
+                chart.resize();
+            });
+        }
+
+        // Handle button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent.includes('Start Your Impact Journey') || 
+                e.target.textContent.includes('Get Started')) {
+                e.preventDefault();
+                alert('Welcome to the Red Leaks community! Together, we\'re creating positive change for women worldwide.');
+            }
+        });
+    </script>
+</body>
+</html>

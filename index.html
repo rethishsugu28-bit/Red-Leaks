@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Leaks - Complete Period Care Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral-rose: #FF6B6B;
+            --deep-berry: #C44569;
+            --soft-blush: #FFF5F5;
+            --sage-green: #95C7A3;
+            --warm-gray: #6C757D;
+            --golden-honey: #FFC107;
+            --lavender-mist: #E8DAFF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-blush) 0%, #ffffff 50%, var(--soft-blush) 100%);
+            background-attachment: fixed;
+        }
+        
+        .hero-bg {
+            background: url('resources/hero-bg.jpg') center/cover;
+            position: relative;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 245, 245, 0.2) 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--coral-rose), var(--deep-berry));
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .cycle-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .calendar-day {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .calendar-day:hover {
+            background: var(--coral-rose);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .calendar-day.period {
+            background: var(--deep-berry);
+            color: white;
+        }
+        
+        .calendar-day.delivery {
+            background: var(--sage-green);
+            color: white;
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.15);
+        }
+        
+        .product-card.selected {
+            border-color: var(--coral-rose);
+            box-shadow: 0 0 0 2px var(--coral-rose);
+        }
+        
+        #p5-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .testimonial-carousel {
+            overflow: hidden;
+        }
+        
+        .testimonial-slide {
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 245, 0.9) 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stats-counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--coral-rose);
+            transition: left 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            left: 0;
+        }
+        
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .payment-form {
+            background: linear-gradient(135deg, #ffffff 0%, var(--soft-blush) 100%);
+        }
+        
+        .stripe-element {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .stripe-element.focus {
+            border-color: var(--coral-rose);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+        
+        .user-dashboard {
+            background: linear-gradient(135deg, var(--soft-blush) 0%, #ffffff 100%);
+        }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        .notification-badge {
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate3d(0,0,0);
+            }
+            40%, 43% {
+                transform: translate3d(0, -10px, 0);
+            }
+            70% {
+                transform: translate3d(0, -5px, 0);
+            }
+            90% {
+                transform: translate3d(0, -2px, 0);
+            }
+        }
+        
+        .subscription-status {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscription-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold gradient-text">Red Leaks</div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-gray-700 hover:text-coral-rose transition-colors">Home</a>
+                        <a href="features.html" class="nav-link text-gray-700 hover:text-coral-rose transition-colors">Features</a>
+                        <a href="impact.html" class="nav-link text-gray-700 hover:text-coral-rose transition-colors">Impact</a>
+                        <button id="login-btn" class="text-gray-700 hover:text-coral-rose transition-colors">Login</button>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full glow-effect">Get Started</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <div id="p5-canvas-container" class="absolute inset-0"></div>
+        <div class="content-overlay max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+                        <span class="gradient-text" id="typed-text"></span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        The world's first complete period care platform that predicts your cycle, delivers products automatically, and provides comprehensive health insights with secure payment integration.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button id="start-trial-btn" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold pulse-animation">
+                            Start Free Trial
+                        </button>
+                        <button id="watch-demo-btn" class="border-2 border-coral-rose text-coral-rose px-8 py-4 rounded-full text-lg font-semibold hover:bg-coral-rose hover:text-white transition-all glow-effect">
+                            Watch Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="cycle-animation">
+                        <img src="resources/app-mockup.png" alt="Red Leaks App Interface" class="w-full max-w-md mx-auto rounded-3xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">The Problem We Solve</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    87% of women have experienced period-related stress. Traditional apps leave you scrambling for products at the last moment.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <div class="bg-red-50 p-8 rounded-3xl border-l-4 border-red-400">
+                        <h3 class="text-2xl font-bold text-red-700 mb-4">Before Red Leaks</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center">
+                                <span class="text-red-500 mr-3">❌</span>
+                                Unexpected periods ruin your day
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-red-500 mr-3">❌</span>
+                                Emergency drugstore runs at midnight
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-red-500 mr-3">❌</span>
+                                Stockpiling products you might not need
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-red-500 mr-3">❌</span>
+                                Constant anxiety about timing
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <div class="bg-green-50 p-8 rounded-3xl border-l-4 border-green-400">
+                        <h3 class="text-2xl font-bold text-green-700 mb-4">With Red Leaks</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-3">✅</span>
+                                AI predicts your cycle with 95% accuracy
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-3">✅</span>
+                                Products arrive 2 days before your period
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-3">✅</span>
+                                Personalized to your exact preferences
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-3">✅</span>
+                                Complete peace of mind and confidence
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Experience Red Leaks</h2>
+                <p class="text-xl text-gray-600">Try our interactive demo to see how Red Leaks transforms your period care</p>
+            </div>
+            
+            <div class="feature-grid">
+                <!-- Enhanced Cycle Prediction Calendar -->
+                <div class="interactive-demo rounded-3xl p-8 shadow-lg card-hover fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center">AI Cycle Prediction</h3>
+                    <div class="calendar-container">
+                        <div class="flex justify-between items-center mb-4">
+                            <button id="prev-month" class="text-coral-rose hover:text-deep-berry text-2xl font-bold">‹</button>
+                            <h4 id="current-month" class="font-semibold text-lg"></h4>
+                            <button id="next-month" class="text-coral-rose hover:text-deep-berry text-2xl font-bold">›</button>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm mb-4">
+                            <div class="font-semibold text-gray-500 p-2">Sun</div>
+                            <div class="font-semibold text-gray-500 p-2">Mon</div>
+                            <div class="font-semibold text-gray-500 p-2">Tue</div>
+                            <div class="font-semibold text-gray-500 p-2">Wed</div>
+                            <div class="font-semibold text-gray-500 p-2">Thu</div>
+                            <div class="font-semibold text-gray-500 p-2">Fri</div>
+                            <div class="font-semibold text-gray-500 p-2">Sat</div>
+                        </div>
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-1 mt-2"></div>
+                    </div>
+                    <div class="mt-6 space-y-2">
+                        <div class="flex items-center text-sm">
+                            <div class="w-4 h-4 bg-deep-berry rounded mr-2"></div>
+                            <span>Predicted Period</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <div class="w-4 h-4 bg-sage-green rounded mr-2"></div>
+                            <span>Delivery Scheduled</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <div class="w-4 h-4 bg-golden-honey rounded mr-2"></div>
+                            <span>Fertile Window</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Product Selector -->
+                <div class="interactive-demo rounded-3xl p-8 shadow-lg card-hover fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Smart Product Selector</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-3">Choose Product Type</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="product-card border-2 border-gray-200 rounded-lg p-4 text-center selected" data-product="pads">
+                                    <div class="text-3xl mb-2">🩲</div>
+                                    <div class="text-sm font-medium">Pads</div>
+                                    <div class="text-xs text-gray-500 mt-1">From $8.99</div>
+                                </div>
+                                <div class="product-card border-2 border-gray-200 rounded-lg p-4 text-center" data-product="tampons">
+                                    <div class="text-3xl mb-2">🧻</div>
+                                    <div class="text-sm font-medium">Tampons</div>
+                                    <div class="text-xs text-gray-500 mt-1">From $10.99</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-3">Brand Preference</label>
+                            <select id="brand-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent">
+                                <option value="always">Always - $12.99</option>
+                                <option value="kotex">Kotex - $11.99</option>
+                                <option value="playtex">Playtex - $13.99</option>
+                                <option value="organic">Organic Cotton - $15.99</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-3">Flow Level</label>
+                            <div class="flex space-x-2">
+                                <button class="flow-btn flex-1 py-3 px-4 border border-gray-300 rounded-lg text-sm font-medium hover:bg-coral-rose hover:text-white transition-all" data-flow="light">Light</button>
+                                <button class="flow-btn flex-1 py-3 px-4 border border-gray-300 rounded-lg text-sm font-medium hover:bg-coral-rose hover:text-white transition-all bg-coral-rose text-white" data-flow="medium">Medium</button>
+                                <button class="flow-btn flex-1 py-3 px-4 border border-gray-300 rounded-lg text-sm font-medium hover:bg-coral-rose hover:text-white transition-all" data-flow="heavy">Heavy</button>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-gray-200">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium">Monthly Cost:</span>
+                                <span id="monthly-cost" class="text-2xl font-bold text-coral-rose">$12.99</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm text-gray-600">
+                                <span>With subscription (20% off):</span>
+                                <span id="subscription-cost" class="font-semibold text-sage-green">$10.39</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Delivery Tracker -->
+                <div class="interactive-demo rounded-3xl p-8 shadow-lg card-hover fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Live Delivery Tracking</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-sage-green rounded-full flex items-center justify-center text-white text-sm font-bold mr-4">
+                                <span class="text-lg">✓</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Order Placed</div>
+                                <div class="text-sm text-gray-500">Based on your cycle prediction</div>
+                            </div>
+                            <div class="text-xs text-sage-green font-semibold">Completed</div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-coral-rose rounded-full flex items-center justify-center text-white text-sm font-bold mr-4">
+                                <span class="animate-spin text-lg">⟳</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Picked from Store</div>
+                                <div class="text-sm text-gray-500">CVS Pharmacy - 0.8 miles away</div>
+                            </div>
+                            <div class="text-xs text-coral-rose font-semibold">In Progress</div>
+                        </div>
+                        
+                        <div class="flex items-center opacity-50">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm font-bold mr-4">
+                                <span class="text-lg">3</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Out for Delivery</div>
+                                <div class="text-sm text-gray-500">Arriving today by 3:00 PM</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center opacity-50">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm font-bold mr-4">
+                                <span class="text-lg">4</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Delivered</div>
+                                <div class="text-sm text-gray-500">2 days before your period</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                        <div class="text-sm text-green-700">
+                            <strong>Next Delivery:</strong> March 15th (2 days before predicted period)
+                        </div>
+                        <div class="text-xs text-green-600 mt-1">
+                            Estimated delivery time: 2:30 PM - 3:30 PM
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Integration Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Secure Payment Integration</h2>
+                <p class="text-xl text-gray-600">Bank-level security with multiple payment options</p>
+            </div>
+            
+            <div class="payment-form rounded-3xl p-8 shadow-lg fade-in">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Payment Methods</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-coral-rose transition-colors payment-method" data-method="card">
+                                <div class="w-8 h-8 bg-blue-600 rounded mr-4 flex items-center justify-center text-white text-sm font-bold">💳</div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Credit/Debit Card</div>
+                                    <div class="text-sm text-gray-500">Visa, Mastercard, American Express</div>
+                                </div>
+                                <div class="text-coral-rose">✓</div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-coral-rose transition-colors payment-method" data-method="paypal">
+                                <div class="w-8 h-8 bg-blue-500 rounded mr-4 flex items-center justify-center text-white text-sm font-bold">PP</div>
+                                <div class="flex-1">
+                                    <div class="font-medium">PayPal</div>
+                                    <div class="text-sm text-gray-500">Pay with your PayPal account</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-coral-rose transition-colors payment-method" data-method="apple">
+                                <div class="w-8 h-8 bg-black rounded mr-4 flex items-center justify-center text-white text-sm font-bold">🍎</div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Apple Pay</div>
+                                    <div class="text-sm text-gray-500">Touch ID or Face ID payment</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-coral-rose transition-colors payment-method" data-method="google">
+                                <div class="w-8 h-8 bg-blue-600 rounded mr-4 flex items-center justify-center text-white text-sm font-bold">G</div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Google Pay</div>
+                                    <div class="text-sm text-gray-500">Pay with Google Pay</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Card Details</h3>
+                        <form id="payment-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Card Number</label>
+                                <div id="card-number-element" class="stripe-element"></div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Expiry Date</label>
+                                    <div id="card-expiry-element" class="stripe-element"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">CVC</label>
+                                    <div id="card-cvc-element" class="stripe-element"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Cardholder Name</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="Jane Doe">
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="save-card" class="mr-2">
+                                <label for="save-card" class="text-sm text-gray-600">Save this card for future payments</label>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary text-white px-6 py-3 rounded-lg w-full font-semibold">
+                                Complete Payment
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 text-center">
+                            <div class="flex items-center justify-center space-x-4 text-gray-400">
+                                <span>🔒 SSL Encrypted</span>
+                                <span>•</span>
+                                <span>PCI Compliant</span>
+                                <span>•</span>
+                                <span>Bank Level Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Dashboard Preview -->
+    <section class="py-20 user-dashboard">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Your Personal Dashboard</h2>
+                <p class="text-xl text-gray-600">Complete control over your period care journey</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Cycle Overview -->
+                <div class="dashboard-card rounded-3xl p-8 shadow-lg fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold">Cycle Overview</h3>
+                        <div class="notification-badge w-6 h-6 bg-coral-rose rounded-full flex items-center justify-center text-white text-xs font-bold">3</div>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="relative w-32 h-32 mx-auto mb-4">
+                            <svg class="progress-ring w-32 h-32">
+                                <circle cx="64" cy="64" r="56" stroke="#f3f4f6" stroke-width="8" fill="transparent"></circle>
+                                <circle cx="64" cy="64" r="56" stroke="#FF6B6B" stroke-width="8" fill="transparent" 
+                                        stroke-dasharray="351.86" stroke-dashoffset="87.97" class="progress-ring-circle"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-coral-rose">75%</div>
+                                    <div class="text-xs text-gray-500">Cycle</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-lg font-semibold mb-2">Day 21 of 28</div>
+                        <div class="text-sm text-gray-600">Next period in 7 days</div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Last period</span>
+                            <span class="text-sm font-medium">Feb 15-19</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Average cycle</span>
+                            <span class="text-sm font-medium">28 days</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Prediction accuracy</span>
+                            <span class="text-sm font-medium text-sage-green">95%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Delivery Status -->
+                <div class="dashboard-card rounded-3xl p-8 shadow-lg fade-in">
+                    <h3 class="text-xl font-bold mb-6">Delivery Status</h3>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-sage-green rounded-lg flex items-center justify-center text-white mr-4">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-medium">Next delivery</div>
+                                <div class="text-sm text-gray-500">March 13, 2025</div>
+                            </div>
+                        </div>
+                        
+                        <div class="subscription-status bg-green-50 p-4 rounded-lg mb-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="font-medium text-green-700">Active Subscription</div>
+                                    <div class="text-sm text-green-600">Premium Plan - $10.39/month</div>
+                                </div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Products ordered</span>
+                            <span class="text-sm font-medium">Always Ultra Thin (32ct)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Delivery address</span>
+                            <span class="text-sm font-medium">Home address</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Store</span>
+                            <span class="text-sm font-medium">CVS Pharmacy (0.8 mi)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Health Insights -->
+                <div class="dashboard-card rounded-3xl p-8 shadow-lg fade-in">
+                    <h3 class="text-xl font-bold mb-6">Health Insights</h3>
+                    
+                    <div class="mb-6">
+                        <div id="health-chart" style="height: 200px;"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                    💧
+                                </div>
+                                <div>
+                                    <div class="font-medium text-blue-700">Hydration</div>
+                                    <div class="text-sm text-blue-600">Good level</div>
+                                </div>
+                            </div>
+                            <div class="text-blue-600 font-bold">85%</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                    😴
+                                </div>
+                                <div>
+                                    <div class="font-medium text-purple-700">Sleep Quality</div>
+                                    <div class="text-sm text-purple-600">Excellent</div>
+                                </div>
+                            </div>
+                            <div class="text-purple-600 font-bold">92%</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                    🏃‍♀️
+                                </div>
+                                <div>
+                                    <div class="font-medium text-orange-700">Activity Level</div>
+                                    <div class="text-sm text-orange-600">Moderate</div>
+                                </div>
+                            </div>
+                            <div class="text-orange-600 font-bold">78%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Social Proof -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6 gradient-text">Trusted by Thousands</h2>
+                <p class="text-xl text-gray-600">Real women, real results, real peace of mind</p>
+                
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="text-5xl font-bold text-coral-rose mb-2 stats-counter" id="users-count">0</div>
+                        <div class="text-gray-600 font-medium">Active Users</div>
+                        <div class="text-sm text-gray-500 mt-1">Across 47 countries</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold text-sage-green mb-2 stats-counter" id="deliveries-count">0</div>
+                        <div class="text-gray-600 font-medium">Deliveries Made</div>
+                        <div class="text-sm text-gray-500 mt-1">99.2% on-time rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold text-golden-honey mb-2 stats-counter" id="satisfaction-rate">0</div>
+                        <div class="text-gray-600 font-medium">% Satisfaction Rate</div>
+                        <div class="text-sm text-gray-500 mt-1">Based on 50K+ reviews</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial Carousel -->
+            <div class="testimonial-carousel fade-in">
+                <div class="splide" id="testimonial-splide">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg mx-4">
+                                    <div class="flex items-center mb-6">
+                                        <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/970cde64d4350271fe461d87c349ccdf0eb05ec4.jpg" alt="Sarah M." class="w-16 h-16 rounded-full object-cover mr-4">
+                                        <div>
+                                            <div class="font-bold text-lg">Sarah Martinez</div>
+                                            <div class="text-sm text-gray-500">Marketing Manager, NYC</div>
+                                            <div class="flex text-golden-honey text-sm mt-1">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic text-lg leading-relaxed">
+                                        "Red Leaks changed my life completely. No more emergency runs to the store or worrying about timing. The prediction accuracy is incredible - it's like having a personal assistant for my period."
+                                    </p>
+                                    <div class="mt-4 text-sm text-sage-green font-semibold">
+                                        Using Red Leaks for 18 months • 36 deliveries received
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg mx-4">
+                                    <div class="flex items-center mb-6">
+                                        <img src="https://kimi-web-img.moonshot.cn/img/zaggocare.org/dbc967253780edc73cd18ad3396f328330b4a38c.png" alt="Priya K." class="w-16 h-16 rounded-full object-cover mr-4">
+                                        <div>
+                                            <div class="font-bold text-lg">Priya Sharma</div>
+                                            <div class="text-sm text-gray-500">Software Engineer, SF</div>
+                                            <div class="flex text-golden-honey text-sm mt-1">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic text-lg leading-relaxed">
+                                        "As a busy tech professional, I don't have time to worry about my period. Red Leaks gives me one less thing to stress about. The AI predictions are spot-on every time."
+                                    </p>
+                                    <div class="mt-4 text-sm text-sage-green font-semibold">
+                                        Using Red Leaks for 24 months • 8 referrals made
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="bg-gradient-to-br from-soft-blush to-white p-8 rounded-3xl shadow-lg mx-4">
+                                    <div class="flex items-center mb-6">
+                                        <img src="https://kimi-web-img.moonshot.cn/img/c8.alamy.com/30532fb4db812bc5f011ebbcab51e1798e34ded7.jpg" alt="Maria R." class="w-16 h-16 rounded-full object-cover mr-4">
+                                        <div>
+                                            <div class="font-bold text-lg">Maria Gonzalez</div>
+                                            <div class="text-sm text-gray-500">Teacher & Mother, Austin</div>
+                                            <div class="flex text-golden-honey text-sm mt-1">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic text-lg leading-relaxed">
+                                        "Between teaching and taking care of my family, Red Leaks has been a game-changer. The convenience is unmatched, and the product quality is excellent."
+                                    </p>
+                                    <div class="mt-4 text-sm text-sage-green font-semibold">
+                                        Using Red Leaks for 12 months • 0 stress episodes
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-soft-blush to-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in">
+                <h2 class="text-5xl font-bold mb-6 gradient-text">Ready to Experience Complete Period Peace of Mind?</h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Join thousands of women who've transformed their period experience with our complete platform. Start your free 30-day trial today and discover what stress-free periods feel like.
+                </p>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="text-left">
+                            <h3 class="text-2xl font-bold mb-6 text-coral-rose">Complete Platform Access:</h3>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    Unlimited cycle tracking & AI predictions
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    3 free product deliveries
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    Personalized product selection
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    Secure payment integration
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    Complete privacy protection
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-sage-green mr-3 text-lg">✓</span>
+                                    24/7 customer support
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-bold text-coral-rose mb-2">FREE</div>
+                            <div class="text-gray-600 mb-6 text-lg">30-day trial</div>
+                            <button id="complete-signup-btn" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold w-full mb-4 glow-effect">
+                                Start Complete Trial
+                            </button>
+                            <p class="text-sm text-gray-500">No credit card required • Cancel anytime • Full privacy protection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-4xl font-bold gradient-text mb-4">Red Leaks</div>
+                <p class="text-gray-400 mb-8 text-lg">Empowering women through smart period care</p>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-500 text-sm">
+                        © 2025 Red Leaks. All rights reserved. | Privacy Policy | Terms of Service | Contact Us | Security
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="modal-content bg-white p-8 rounded-3xl max-w-md mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-coral-rose">Welcome Back</h3>
+                <button id="close-login" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+            </div>
+            
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email Address</label>
+                    <input type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="your@email.com" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <input type="password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="••••••••" required>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        <span class="text-sm text-gray-600">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-coral-rose hover:underline">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn-primary text-white px-6 py-3 rounded-lg w-full font-semibold">
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account? 
+                    <button id="show-signup" class="text-coral-rose hover:underline font-medium">Sign up here</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="modal-content bg-white p-8 rounded-3xl max-w-md mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-coral-rose">Join Red Leaks</h3>
+                <button id="close-signup" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+            </div>
+            
+            <form id="signup-form" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">First Name</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="Jane" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Last Name</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email Address</label>
+                    <input type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="your@email.com" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <input type="password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="••••••••" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Phone Number</label>
+                    <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-rose focus:border-transparent" placeholder="+1 (555) 123-4567">
+                </div>
+                
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" class="mr-2" required>
+                    <label for="terms" class="text-sm text-gray-600">
+                        I agree to the 
+                        <a href="#" class="text-coral-rose hover:underline">Terms of Service</a> and 
+                        <a href="#" class="text-coral-rose hover:underline">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-primary text-white px-6 py-3 rounded-lg w-full font-semibold">
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account? 
+                    <button id="show-login" class="text-coral-rose hover:underline font-medium">Sign in here</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
